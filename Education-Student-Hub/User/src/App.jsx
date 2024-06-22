@@ -25,7 +25,7 @@ export default function App() {
           <NavbarItem icon={<StickyNote size={20} />} text="Projects" route="/projects" />
           <NavbarItem icon={<Calendar size={20} />} text="Tasks" route="/tasks" />
           <NavbarItem icon={<Flag size={20} />} text="Report" route="/report" />
-          <NavbarItem icon={<LogIn size={20} />} text="Sign In" route="/logIn" />
+          <NavbarItem icon={<LogIn size={20} />} text="Sign In" route="/signin" />
           <NavbarItem icon={<UserPlus size={20} />} text="Sign Up" route="/signUp" />
 
           <hr className="my-3" />
@@ -44,7 +44,7 @@ export default function App() {
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/help" element={<Help />} />
 
-            <Route path="/logIn" element={<Login />} />
+            <Route path="/signin" element={<Login />} />
             <Route path="/signUp" element={<SignUp />} />
 
           </Routes>

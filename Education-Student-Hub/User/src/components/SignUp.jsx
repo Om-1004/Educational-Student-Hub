@@ -1,7 +1,9 @@
+import { useState } from "react";
 import LoginPageImg from "../assets/images/loginIMG.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye } from "lucide-react";
 import { useState } from "react";
+
 
 export default function Register() {
   const [openPassword, setOpenPassword] = useState(false);
@@ -12,6 +14,44 @@ export default function Register() {
   }
 
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({})
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false)
+
+  const handleChange = (e) =>{
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    })
+  }
+  const handleSubmit = async(e) =>{
+    e.preventDefault();
+    try {
+      setLoading(true)
+      const res = await fetch("api/auth/signup",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }, body: JSON.stringify(formData),
+    });
+    const data = await res.json();
+    console.log(data)
+    if(data.success ===false){
+      setLoading(false);
+      setError(data.message);
+      
+      return;
+    }
+    setLoading(false);
+    setError(null);
+    navigate("/signin")
+    
+  }
+    catch (error) {
+      console.log(error.message)
+    }
+  }
 
   let displayEye;
 
@@ -53,24 +93,38 @@ export default function Register() {
         <div className="md:w-1/2 px-8">
           <h2 className="font-bold text-2xl">Register</h2>
 
-          <form action="" className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input
               className="p-2 mt-8 rounded-xl"
               type="text"
               name="firstName"
               placeholder="First Name"
+              id="firstName"
+              onChange={handleChange}
             />
             <input
               className="p-2 rounded-xl"
               type="text"
               name="lastName"
               placeholder="Last Name"
+              id="lastName"
+              onChange={handleChange}
+            />
+            <input
+              className="p-2 rounded-xl"
+              type="text"
+              name="email"
+              placeholder="Username"
+              id="username"
+              onChange={handleChange}
             />
             <input
               className="p-2 rounded-xl"
               type="text"
               name="email"
               placeholder="Email"
+              id="email"
+              onChange={handleChange}
             />
             <div className="relative">
               <input
@@ -78,14 +132,16 @@ export default function Register() {
                 type={openPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
+                id="password"
+                onChange={handleChange}
               />
 
               <button onClick={handleEyeClick}>
                 {displayEye}
               </button>
             </div>
-            <button className="bg-[#92B4FB] text-white py-2 rounded-xl hover:scale-105 duration-300">
-              Sign Up
+            <button disabled={loading} className="bg-[#92B4FB] text-white py-2 rounded-xl hover:scale-105 duration-300">
+              {loading ? "Loading..." : "Sign Up"}
             </button>
           </form>
 
@@ -99,10 +155,8 @@ export default function Register() {
 
           <div className="text-xs flex lg:flex-row justify-between items-center lg:mt-3 sm:flex-col sm:gap-4 sm:mt-6">
             <p>If You Have An Account?</p>
-            <button
-              onClick={() => navigate("/login")}
-              className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 block"
-            >
+            <button onClick={() => navigate('/signin')} className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 block">
+
               Login
             </button>
           </div>
