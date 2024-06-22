@@ -1,19 +1,34 @@
 import LoginPageImg from "../assets/images/loginIMG.jpg";
 
-export default function Login() {
+export default function Register() {
   return (
     <div className="bg-gray-50 min-h-screen flex items-center justify-center">
       {/* Increased max width from max-w-3xl to max-w-5xl */}
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-5xl w-full p-5 sm:text-center lg:text-left">
         <div className="md:w-1/2 px-8">
-          <h2 className="font-bold text-2xl">Login</h2>
-          <p className="text-sm mt-4">
-            If you already have an account, sign in here
-          </p>
+          <h2 className="font-bold text-2xl">Regsiter</h2>
+          <div className="flex lg:flex-row justify-between items-center text-sm mt-4 sm:flex-col sm:gap-3">
+            <p>Already have an account?</p>
+            <p className="text-blue-700 underline hover:cursor-pointer">
+              Login Here
+            </p>
+          </div>
 
           <form action="" className="flex flex-col gap-4">
             <input
               className="p-2 mt-8 rounded-xl"
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+            />
+            <input
+              className="p-2 rounded-xl"
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+            />
+            <input
+              className="p-2 rounded-xl"
               type="text"
               name="email"
               placeholder="Email"
@@ -38,7 +53,7 @@ export default function Login() {
               </svg>
             </div>
             <button className="bg-[#92B4FB] text-white py-2 rounded-xl hover:scale-105 duration-300">
-              Login
+              Sign Up
             </button>
           </form>
 
@@ -51,9 +66,9 @@ export default function Login() {
           <p className="mt-5 text-xs border-b py-4">Forgot your password?</p>
 
           <div className="text-xs flex lg:flex-row justify-between items-center lg:mt-3 sm:flex-col sm:gap-4 sm:mt-6">
-            <p>If You Don't Have An Account?</p>
+            <p>If You Have An Account?</p>
             <button className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 block">
-              Register
+              Login
             </button>
           </div>
         </div>
