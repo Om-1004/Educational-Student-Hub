@@ -2,7 +2,6 @@ import { useState } from "react";
 import LoginPageImg from "../assets/images/loginIMG.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye } from "lucide-react";
-import { useState } from "react";
 
 
 export default function Register() {

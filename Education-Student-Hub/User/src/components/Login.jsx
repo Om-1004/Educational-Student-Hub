@@ -32,7 +32,6 @@ export default function Login() {
     if(data.success ===false){
       setLoading(false);
       setError(data.message);
-      
       return;
     }
     setLoading(false);
