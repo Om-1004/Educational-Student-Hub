@@ -4,7 +4,7 @@ export default function Login() {
   return (
     <div className="bg-gray-50 min-h-screen flex items-center justify-center">
       {/* Increased max width from max-w-3xl to max-w-5xl */}
-      <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-5xl w-full p-5">
+      <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-5xl w-full p-5 sm:text-center">
         <div className="md:w-1/2 px-8">
           <h2 className="font-bold text-2xl">Login</h2>
           <p className="text-sm mt-4">
@@ -50,9 +50,11 @@ export default function Login() {
 
           <p className="mt-5 text-xs border-b py-4">Forgot your password?</p>
 
-          <div className="text-xs flex justify-between items-center mt-3">
+          <div className="text-xs flex lg:flex-row justify-between items-center lg:mt-3 sm:flex-col sm:gap-4 sm:mt-6">
             <p>If You Don't Have An Account?</p>
-            <button className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300">Register</button>
+            <button className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 block">
+              Register
+            </button>
           </div>
         </div>
 
