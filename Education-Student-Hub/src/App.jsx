@@ -26,7 +26,7 @@ export default function App() {
           <NavbarItem icon={<Calendar size={20} />} text="Tasks" route="/tasks" />
           <NavbarItem icon={<Flag size={20} />} text="Report" route="/report" />
           <NavbarItem icon={<LogIn size={20} />} text="Sign In" route="/logIn" />
-          <NavbarItem icon={<Flag size={20} />} text="Sign Up" route="/signUp" />
+          <NavbarItem icon={<UserPlus size={20} />} text="Sign Up" route="/signUp" />
 
           <hr className="my-3" />
           <NavbarItem icon={<Settings size={20} />} text="Setting" route="/settings" />
