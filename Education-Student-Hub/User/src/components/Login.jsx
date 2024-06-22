@@ -1,48 +1,49 @@
 import LoginPageImg from "../assets/images/loginIMG.jpg";
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from "react";
+import OAuth from "./OAuth";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
+
 
 export default function Login() {
   const [openPassword, setOpenPassword] = useState(false);
 
+  const [formData, setFormData] = useState({});
+  const { loading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch(); 
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({})
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false)
 
-  const handleChange = (e) =>{
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
-    })
-  }
-  const handleSubmit = async(e) =>{
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true)
-      const res = await fetch("api/auth/signin",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      }, body: JSON.stringify(formData),
-    });
-    const data = await res.json();
-    console.log(data)
-    if(data.success ===false){
-      setLoading(false);
-      setError(data.message);
-      return;
+      dispatch(signInStart());
+      const res = await fetch("api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signInFailure(data.message));
+        return;
+      }
+      dispatch(signInSuccess(data));
+      navigate("/");
+    } catch (error) {
+      dispatch(signInFailure(error.message));
     }
-    setLoading(false);
-    setError(null);
-    navigate("/")
-    
-  }
-    catch (error) {
-      console.log(error.message)
-    }
-  }
+  };
 
   function handleEyeClick(e) {
     e.preventDefault();
@@ -119,6 +120,7 @@ export default function Login() {
             <hr className="border-gray-300 my-4" />
             <p className="text-center text-sm text-gray-500">OR</p>
             <hr className="w-full border-gray-300 my-4" />
+            <OAuth />
           </div>
 
           <p className="mt-5 text-xs border-b py-4">Forgot your password?</p>

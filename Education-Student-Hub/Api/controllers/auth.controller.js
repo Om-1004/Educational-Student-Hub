@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 
 export const signup = async(req, res, next) =>{
     const { firstName, lastName, username, email, password } = req.body
+    
     const hashedPassword = bcryptjs.hashSync(password, 12)
     const newUser = new User({ firstName, lastName, username, email, password: hashedPassword})
     try {
