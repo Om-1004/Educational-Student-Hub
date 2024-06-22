@@ -29,7 +29,6 @@ export default function App() {
         <Navbar 
           username={username && username}
           email={email && email}
-          
         >
           <NavbarItem icon={<HomeIcon size={20} />} text="Home" route="/" />
           <NavbarItem icon={<LayoutDashboard size={20} />} text="Dashboard" route="/dashboard" />
