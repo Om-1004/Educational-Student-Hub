@@ -5,8 +5,9 @@ import { ChevronFirst, ChevronLast, MoreVertical } from "lucide-react";
 
 export const NavBarContext = createContext();
 
-export default function Navbar({ children }) {
+export default function Navbar({ username, email, children }) {
   const [expanded, setExpanded] = useState(window.innerWidth > 768);
+  
 
   useEffect(() => {
     const handleResize = () => {
@@ -58,9 +59,9 @@ export default function Navbar({ children }) {
             } `}
           >
             <div className="leading-4 text-sm flex-grow">
-              <h4 className="font-semibold">Educational Student Hub</h4>
+              <h4 className="font-semibold">{username}</h4>
               <span className="text-xs text-gray-600">
-                opatel101004@gmail.com
+                {email}
               </span>
             </div>
             <button className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 ml-2">

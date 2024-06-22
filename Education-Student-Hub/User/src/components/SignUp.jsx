@@ -2,6 +2,8 @@ import { useState } from "react";
 import LoginPageImg from "../assets/images/loginIMG.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye } from "lucide-react";
+import OAuth from "./OAuth";
+
 
 
 export default function Register() {
@@ -12,18 +14,20 @@ export default function Register() {
     setOpenPassword(current => !current);
   }
 
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({})
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
 
   const handleChange = (e) =>{
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
-    })
+    });
   }
-  const handleSubmit = async(e) =>{
+
+  const handleSubmit= async (e)=>{
     e.preventDefault();
     try {
       setLoading(true)
@@ -51,7 +55,6 @@ export default function Register() {
       console.log(error.message)
     }
   }
-
   let displayEye;
 
   if (!openPassword) {
@@ -148,6 +151,7 @@ export default function Register() {
             <hr className="border-gray-300 my-4" />
             <p className="text-center text-sm text-gray-500">OR</p>
             <hr className="w-full border-gray-300 my-4" />
+            <OAuth />
           </div>
 
           <p className="mt-5 text-xs border-b py-4">Forgot your password?</p>
