@@ -1,15 +1,24 @@
 import LoginPageImg from "../assets/images/loginIMG.jpg";
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-gray-50 min-h-screen flex items-center justify-center">
       {/* Increased max width from max-w-3xl to max-w-5xl */}
       <div className="bg-gray-100 flex rounded-2xl shadow-lg max-w-5xl w-full p-5 sm:text-center lg:text-left">
         <div className="md:w-1/2 px-8">
           <h2 className="font-bold text-2xl">Login</h2>
-          <p className="text-sm mt-4">
-            If you already have an account, sign in here
-          </p>
+          <div className="flex lg:flex-row justify-between items-center text-sm mt-4 sm:flex-col sm:gap-3">
+            <p>Don't have an account?</p>
+            <Link
+              to="/signup"
+              className="text-blue-700 underline hover:cursor-pointer"
+            >
+              Sign Up Here
+            </Link>
+          </div>
 
           <form action="" className="flex flex-col gap-4">
             <input
@@ -52,7 +61,7 @@ export default function Login() {
 
           <div className="text-xs flex lg:flex-row justify-between items-center lg:mt-3 sm:flex-col sm:gap-4 sm:mt-6">
             <p>If You Don't Have An Account?</p>
-            <button className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 block">
+            <button onClick={() => navigate('/signUp')} className="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300 block">
               Register
             </button>
           </div>
