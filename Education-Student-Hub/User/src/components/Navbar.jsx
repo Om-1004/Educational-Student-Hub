@@ -7,6 +7,7 @@ export const NavBarContext = createContext();
 
 export default function Navbar({ username, email, children }) {
   const [expanded, setExpanded] = useState(window.innerWidth > 768);
+  const [showLogout, setShowLogout] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,6 +23,13 @@ export default function Navbar({ username, email, children }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const toggleNavbar = () => {
+    setExpanded((current) => !current);
+    if (!expanded) {
+      setShowLogout(false); // Hide logout when collapsing the navbar
+    }
+  };
+
   return (
     <aside className="h-screen">
       <nav className="h-full flex flex-col bg-white border-r shadow-sm">
@@ -29,13 +37,11 @@ export default function Navbar({ username, email, children }) {
           <img
             src={Logo}
             className={`overflow-hidden transition-all ${
-              expanded ? "w-32" : "w-0"
+              expanded ? "w-52" : "w-0"
             }`}
           />
           <button
-            onClick={() => {
-              setExpanded((current) => !current);
-            }}
+            onClick={toggleNavbar}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
           >
             {expanded ? <ChevronFirst /> : <ChevronLast />}
@@ -47,7 +53,7 @@ export default function Navbar({ username, email, children }) {
         </NavBarContext.Provider>
 
         {username && email && (
-          <div className="border-t flex items-center pt-3 px-5">
+          <div className="border-t flex items-center pt-3 px-5 relative">
             <img
               src={profileLogo}
               className="w-10 h-10 rounded-full border border-transparent hover:border-blue-500"
@@ -62,10 +68,23 @@ export default function Navbar({ username, email, children }) {
                 <h4 className="font-semibold">{username}</h4>
                 <span className="text-xs text-gray-600">{email}</span>
               </div>
-              <button className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 ml-2">
-                <MoreVertical size={20} />
-              </button>
+
+              {expanded && (
+                <button
+                  onClick={() => setShowLogout((current) => !current)}
+                  className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 ml-2"
+                >
+                  <MoreVertical size={20} />
+                </button>
+              )}
             </div>
+            {showLogout && expanded && (
+              <div className="absolute top-[-10px] right-[-50px] z-50 w-16">
+                <div className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-sm text-center">
+                  Logout
+                </div>
+              </div>
+            )}
           </div>
         )}
       </nav>

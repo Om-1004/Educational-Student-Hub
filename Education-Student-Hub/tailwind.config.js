@@ -10,6 +10,9 @@ export default {
         xl: "1280px",
         "2xl": "1536px",
       },
+      fontSize: {
+        xsm: "0.6rem", // You can adjust the size as needed
+      },
     },
   },
   plugins: [],
