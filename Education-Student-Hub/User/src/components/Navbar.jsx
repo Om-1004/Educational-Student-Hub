@@ -29,7 +29,7 @@ export default function Navbar({ username, email, children }) {
           <img
             src={Logo}
             className={`overflow-hidden transition-all ${
-              expanded ? "w-32" : "w-0"
+              expanded ? "w-52" : "w-0"
             }`}
           />
           <button
