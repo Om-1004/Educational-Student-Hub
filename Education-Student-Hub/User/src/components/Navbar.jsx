@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
 import profileLogo from "../assets/images/profile.jpeg";
 import Logo from "../assets/images/logo.png";
-import { ChevronFirst, ChevronLast, MoreVertical } from "lucide-react";
+import { ChevronFirst, ChevronLast, MoreVertical, LogOut } from "lucide-react";
 
 export const NavBarContext = createContext();
 
@@ -32,7 +32,7 @@ export default function Navbar({ username, email, children }) {
 
   return (
     <aside className="h-screen">
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+      <nav className="h-full flex flex-col bg-gray-100 border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <img
             src={Logo}
@@ -72,9 +72,9 @@ export default function Navbar({ username, email, children }) {
               {expanded && (
                 <button
                   onClick={() => setShowLogout((current) => !current)}
-                  className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 ml-2"
+                  className="p-1.5 rounded-lg hover:bg-gray-100 ml-2"
                 >
-                  <MoreVertical size={20} />
+                  <LogOut size={20} />
                 </button>
               )}
             </div>
