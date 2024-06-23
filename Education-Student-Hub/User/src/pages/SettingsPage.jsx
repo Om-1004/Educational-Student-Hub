@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import profileLogo from "../assets/images/profile.jpeg";
 import { Pencil } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice.js';
+
 
 const InfoRow = ({ label, value, onEdit, editLabel = "Edit" }) => (
   <div className="text-white text-xs flex items-center justify-between px-3 py-2">
@@ -19,6 +22,18 @@ const InfoRow = ({ label, value, onEdit, editLabel = "Edit" }) => (
 
 export default function Settings({ username, email, password, firstName }) {
   const [openPassword, setOpenPassword] = useState(false);
+  const { currentUser, loading } = useSelector((state) => state.user);
+  const fileRef = useRef(null);
+  const [file, setFile] = useState(undefined);
+  const [updateSuccess, setUpdateSuccess] = useState(false)
+  const [filePerc, setFilePerc] = useState(0);
+  const [fileUploadError, setFileUploadError] = useState(false);
+  const [formData, setFormData] = useState({
+    username: currentUser.username,
+    email: currentUser.email,
+    avatar: currentUser.avatar,
+  });
+  const dispatch = useDispatch();
 
   let displayEye;
 
@@ -62,6 +77,32 @@ export default function Settings({ username, email, password, firstName }) {
     // Handle edit action here
     console.log(`Edit ${field}`);
   };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+      } else {
+        dispatch(updateUserSuccess(data));
+        setUpdateSuccess(true)
+      }
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
 
   return (
     <div className="border-2 border-green-200 h-screen p-10">
@@ -76,13 +117,14 @@ export default function Settings({ username, email, password, firstName }) {
 
         <div className="flex flex-col">
           <div className="mt-5">
-            <label className="mt-5 text-sm text-gray-800">Full Name</label>
+            <label className="mt-5 text-sm text-gray-800">Username</label>
             <div className="flex gap-3 items-center">
               <input
                 className="p-2 rounded-xl w-80 border-2 border-gray-300"
                 type="text"
-                name="password"
-                id="password"
+                value={formData.username}
+                id="username"
+                onChange={handleChange}
               />
               <button>
                 <Pencil size={18} />
@@ -95,9 +137,10 @@ export default function Settings({ username, email, password, firstName }) {
             <div className="flex gap-3 items-center">
               <input
                 className="p-2 rounded-xl w-80 border-2 border-gray-300"
-                type="text"
-                name="password"
-                id="password"
+                type="email"
+                value={formData.email}
+                id="email"
+                onChange={handleChange}
               />
               <button>
                 <Pencil size={18} />
@@ -112,9 +155,9 @@ export default function Settings({ username, email, password, firstName }) {
                 <input
                   className="p-2 rounded-xl w-80 border-2 border-gray-300"
                   type={openPassword ? "text" : "password"}
-                  name="password"
                   placeholder="Password"
                   id="password"
+                  onChange={handleChange}
                 />
                 <button onClick={handleEyeClick}>{displayEye}</button>
               </div>
