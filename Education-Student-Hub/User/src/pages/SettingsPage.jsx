@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import profileLogo from "../assets/images/profile.jpeg";
+
 import { Pencil, Upload, Save } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice.js';
+
 
 export default function Settings({
   username,
@@ -10,6 +14,7 @@ export default function Settings({
   lastName,
 }) {
   const [openPassword, setOpenPassword] = useState(false);
+
   const [isEditing, setIsEditing] = useState({
     username: false,
     email: false,
@@ -17,13 +22,20 @@ export default function Settings({
     firstName: false,
     lastName: false,
   });
+
+  const { currentUser, loading } = useSelector((state) => state.user);
+  const fileRef = useRef(null);
+  const [file, setFile] = useState(undefined);
+  const [updateSuccess, setUpdateSuccess] = useState(false)
+  const [filePerc, setFilePerc] = useState(0);
+  const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({
-    username,
-    email,
-    password,
-    firstName,
-    lastName,
+    username: currentUser.username,
+    email: currentUser.email,
+    avatar: currentUser.avatar,
   });
+  const dispatch = useDispatch();
+
 
   const handleEyeClick = (e) => {
     e.preventDefault();
@@ -44,6 +56,32 @@ export default function Settings({
       [name]: value,
     }));
   };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+      } else {
+        dispatch(updateUserSuccess(data));
+        setUpdateSuccess(true)
+      }
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
 
   return (
     <div className="border-2 border-green-200 h-screen p-10">
@@ -58,15 +96,19 @@ export default function Settings({
 
         <div className="flex flex-col">
           <div className="mt-5">
+
             <label className="mt-5 text-sm text-gray-800">First Name</label>
+
             <div className="flex gap-3 items-center">
               <input
                 className="p-2 rounded-xl w-80 border-2 border-gray-300"
                 type="text"
+
                 name="firstName"
                 id="firstName"
                 value={formData.firstName}
                 readOnly={!isEditing.firstName}
+
                 onChange={handleChange}
               />
               <button onClick={() => handleEdit("firstName")}>
@@ -102,11 +144,13 @@ export default function Settings({
             <div className="flex gap-3 items-center">
               <input
                 className="p-2 rounded-xl w-80 border-2 border-gray-300"
-                type="text"
+
+                type="email"
                 name="email"
                 id="email"
                 value={formData.email}
                 readOnly={!isEditing.email}
+
                 onChange={handleChange}
               />
               <button onClick={() => handleEdit("email")}>
@@ -122,10 +166,12 @@ export default function Settings({
                 <input
                   className="p-2 rounded-xl w-80 border-2 border-gray-300"
                   type={openPassword ? "text" : "password"}
+
                   name="password"
                   id="password"
-                  value={formData.password}
+                  
                   readOnly={!isEditing.password}
+
                   onChange={handleChange}
                 />
                 <button

@@ -81,7 +81,7 @@ export default function Navbar({ username, email, children }) {
             {showLogout && expanded && (
               <div className="absolute top-[-10px] right-[-50px] z-50 w-16">
                 <div className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-sm text-center">
-                  Logout
+                  <button>logout</button>
                 </div>
               </div>
             )}
