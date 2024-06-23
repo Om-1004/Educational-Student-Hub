@@ -2,10 +2,11 @@ import React, { useContext, createContext, useState, useEffect } from "react";
 import profileLogo from "../assets/images/profile.jpeg";
 import Logo from "../assets/images/logo.png";
 import { ChevronFirst, ChevronLast, MoreVertical, LogOut } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export const NavBarContext = createContext();
 
-export default function Navbar({ username, email, children }) {
+export default function Navbar({ username, email, avatar, children }) {
   const [expanded, setExpanded] = useState(window.innerWidth > 768);
   const [showLogout, setShowLogout] = useState(false);
 
@@ -55,7 +56,7 @@ export default function Navbar({ username, email, children }) {
         {username && email && (
           <div className="border-t flex items-center pt-3 px-5 relative">
             <img
-              src={profileLogo}
+              src={avatar}
               className="w-10 h-10 rounded-full border border-transparent hover:border-blue-500"
               alt="Profile"
             />

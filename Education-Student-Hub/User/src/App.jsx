@@ -35,11 +35,12 @@ export default function App() {
   const password = currentUser?.password;
   const firstName = currentUser?.firstName;
   const lastName = currentUser?.lastName;
+  const avatar = currentUser?.avatar;
 
   return (
     <Router>
       <div className="flex">
-        <Navbar username={username && username} email={email && email}>
+        <Navbar username={username && username} email={email && email} avatar={avatar && avatar}>
           <NavbarItem icon={<HomeIcon size={20} />} text="Home" route="/" />
           <NavbarItem
             icon={<LayoutDashboard size={20} />}
@@ -120,6 +121,8 @@ export default function App() {
                     password={password && password}
                     firstName={firstName && firstName}
                     lastName={lastName && lastName}
+                    avatar={avatar && avatar}
+
                   />
                 }
               />

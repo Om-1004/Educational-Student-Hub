@@ -1,5 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import profileLogo from "../assets/images/profile.jpeg";
+
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { app } from '../firebase';
 
 import { Pencil, Upload, Save } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +15,7 @@ export default function Settings({
   password,
   firstName,
   lastName,
+  avatar,
 }) {
   const [openPassword, setOpenPassword] = useState(false);
 
@@ -22,6 +26,7 @@ export default function Settings({
     firstName: false,
     lastName: false,
   });
+
 
   const { currentUser, loading } = useSelector((state) => state.user);
   const fileRef = useRef(null);
@@ -37,8 +42,8 @@ export default function Settings({
     avatar: currentUser.avatar,
   });
   const dispatch = useDispatch();
+  console.log(file)
   console.log(formData)
-
 
   const handleEyeClick = (e) => {
     e.preventDefault();
@@ -52,6 +57,32 @@ export default function Settings({
     }));
   };
 
+  useEffect(() => {
+    if (file) {
+      handleFileUpload(file);
+    }
+  }, [file]);
+
+  const handleFileUpload = (file) => {
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setFilePerc(Math.round(progress));
+      },
+      (error) => { setFileUploadError(true); },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setFormData((prevData) => ({ ...prevData, avatar: downloadURL }));
+        });
+      }
+    );
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -230,19 +261,60 @@ export default function Settings({
           <p className="text-sm text-gray-500">
             We support only JPEGs or PNGs under 5MB
           </p>
+          <form onSubmit={handleSubmit}>
           <div className="flex items-center gap-5 mt-5">
-            <img
-              src={profileLogo}
-              className="w-24 h-24 rounded-full border border-transparent border-blue-500"
-              alt="Profile"
-            />
-            <button className="w-auto h-10 border-2 border-gray-300 rounded-xl px-3">
-              <div className="flex gap-3 items-center">
-                <Upload size={19} />
-                <p>Upload</p>
+            <button className="hover:opacity-40">
+              <div className="relative w-24 h-24 mt-5">
+                <img
+                  src={formData.avatar || currentUser.avatar || profileLogo}
+                  className="w-24 h-24 rounded-full border border-transparent border-blue-500"
+                  alt="Profile"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white rounded-full cursor-pointer" onClick={() => fileRef.current.click()}>
+                  Edit
+                </div>
+                <p className="text-sm self-center">
+                {fileUploadError ? (
+                  <span className="text-red-700">Error While Uploading Image (image must be less than 2mb)</span>
+                ) : filePerc > 0 && filePerc < 100 ? (
+                  <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
+                ) : filePerc === 100 ? (
+                  <span className="text-green-700">Image Successfully Uploaded!</span>
+                ) : (
+                  ""
+                )}
+              </p>
+                <input
+                  onChange={(e) => setFile(e.target.files[0])}
+                  type="file"
+                  ref={fileRef}
+                  hidden
+                  accept="image/*"
+                />
               </div>
             </button>
+            
+            <input
+              onChange={(e) => setFile(e.target.files[0])}
+              type="file"
+              ref={fileRef}
+              hidden
+              accept="image/*"
+            />
+
+          <button>
+            <div className="flex items-center gap-4 w-auto h-10 border-2 border-gray-300 rounded-xl px-3">
+              <div>
+                <Upload />
+              </div>
+              
+              <p>Upload</p>
+
+            </div>
+          </button>
           </div>
+
+          </form>
         </div>
       </div>
     </div>
