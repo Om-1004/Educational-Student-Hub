@@ -37,6 +37,7 @@ export default function Settings({
     avatar: currentUser.avatar,
   });
   const dispatch = useDispatch();
+  console.log(formData)
 
 
   const handleEyeClick = (e) => {
