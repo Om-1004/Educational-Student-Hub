@@ -32,8 +32,8 @@ export default function Navbar({ username, email, avatar, children }) {
   };
 
   return (
-    <aside className="h-screen">
-      <nav className="h-full flex flex-col bg-gray-100 border-r shadow-sm">
+    <aside className="min-h-screen bg-gray-100">
+      <nav className="h-full flex flex-col border-r shadow-sm overflow-hidden">
         <div className="p-4 pb-2 flex justify-between items-center">
           <img
             src={Logo}
