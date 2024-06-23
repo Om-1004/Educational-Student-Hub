@@ -34,6 +34,7 @@ export default function App() {
   const email = currentUser?.email;
   const password = currentUser?.password;
   const firstName = currentUser?.firstName;
+  const lastName = currentUser?.lastName;
 
   return (
     <Router>
@@ -110,7 +111,18 @@ export default function App() {
               <Route path="/report" element={<Report />} />
             </Route>
             <Route element={<PrivateRoute />}>
-              <Route path="/settings" element={<SettingsPage username={username && username} email={email && email} password={password && password} firstName={firstName && firstName}/>} />
+              <Route
+                path="/settings"
+                element={
+                  <SettingsPage
+                    username={username && username}
+                    email={email && email}
+                    password={password && password}
+                    firstName={firstName && firstName}
+                    lastName={lastName && lastName}
+                  />
+                }
+              />
             </Route>
             <Route path="/help" element={<Help />} />
             <Route element={<PrivateRoute />}>
