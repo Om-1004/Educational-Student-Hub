@@ -303,12 +303,12 @@ export default function Settings({
             />
 
           <button>
-            <div className="flex items-center gap-4 w-auto h-10 border-2 border-gray-300 rounded-xl px-3">
+            <div className="flex items-center gap-3 w-auto h-10 border-2 border-gray-300 rounded-xl px-3">
               <div>
                 <Upload />
               </div>
               
-              <p>Upload</p>
+              <p>Update</p>
 
             </div>
           </button>
