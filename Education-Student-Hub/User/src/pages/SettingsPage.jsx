@@ -32,6 +32,8 @@ export default function Settings({
   const [formData, setFormData] = useState({
     username: currentUser.username,
     email: currentUser.email,
+    firstName: currentUser.firstName,
+    lastName: currentUser.lastName,
     avatar: currentUser.avatar,
   });
   const dispatch = useDispatch();
@@ -49,13 +51,7 @@ export default function Settings({
     }));
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -98,27 +94,25 @@ export default function Settings({
           <div className="mt-5">
 
             <label className="mt-5 text-sm text-gray-800">First Name</label>
-
-            <div className="flex gap-3 items-center">
-              <input
-                className="p-2 rounded-xl w-80 border-2 border-gray-300"
-                type="text"
-
-                name="firstName"
-                id="firstName"
-                value={formData.firstName}
-                readOnly={!isEditing.firstName}
-
-                onChange={handleChange}
-              />
-              <button onClick={() => handleEdit("firstName")}>
-                {isEditing.firstName ? (
-                  <Save size={18} />
-                ) : (
-                  <Pencil size={18} />
-                )}
-              </button>
-            </div>
+            <form onSubmit={handleSubmit}>
+                <div className="flex gap-3 items-center">
+                  <input
+                    className="p-2 rounded-xl w-80 border-2 border-gray-300"
+                    type="text"
+                    id="firstName"
+                    value={formData.firstName}
+                    readOnly={!isEditing.firstName}
+                    onChange={handleChange}
+                  />
+                  <button onClick={() => handleEdit("firstName")}>
+                    {isEditing.firstName ? (
+                      <Save size={18} />
+                    ) : (
+                      <Pencil size={18} />
+                    )}
+                  </button>
+                </div>
+            </form>
           </div>
 
           <div className="mt-5">
@@ -127,7 +121,6 @@ export default function Settings({
               <input
                 className="p-2 rounded-xl w-80 border-2 border-gray-300"
                 type="text"
-                name="lastName"
                 id="lastName"
                 value={formData.lastName}
                 readOnly={!isEditing.lastName}
@@ -135,6 +128,22 @@ export default function Settings({
               />
               <button onClick={() => handleEdit("lastName")}>
                 {isEditing.lastName ? <Save size={18} /> : <Pencil size={18} />}
+              </button>
+            </div>
+          </div>
+          <div className="mt-5">
+            <label className="mt-5 text-sm text-gray-800">Username</label>
+            <div className="flex gap-3 items-center">
+              <input
+                className="p-2 rounded-xl w-80 border-2 border-gray-300"
+                type="text"
+                id="username"
+                value={formData.username}
+                readOnly={!isEditing.username}
+                onChange={handleChange}
+              />
+              <button onClick={() => handleEdit("username")}>
+                {isEditing.username ? <Save size={18} /> : <Pencil size={18} />}
               </button>
             </div>
           </div>
