@@ -112,7 +112,7 @@ export default function Settings({
   };
 
   return (
-    <div className="border-2 border-green-200 h-screen p-10">
+    <div className="border-2 border-green-200 h-max px-10 pt-10 ">
       <div>
         <p className="text-2xl font-semibold text-gray-800">Profile</p>
         <p className="text-sm text-gray-500">Manage your profile settings</p>
@@ -262,7 +262,7 @@ export default function Settings({
             We support only JPEGs or PNGs under 5MB
           </p>
           <form onSubmit={handleSubmit}>
-          <div className="flex items-center gap-5 mt-5">
+          <div className="flex items-center gap-5 mt-5 mb-3">
             <button className="hover:opacity-40">
               <div className="relative w-24 h-24 mt-5">
                 <img
