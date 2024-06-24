@@ -34,11 +34,13 @@ export default function App() {
   const email = currentUser?.email;
   const password = currentUser?.password;
   const firstName = currentUser?.firstName;
+  const lastName = currentUser?.lastName;
+  const avatar = currentUser?.avatar;
 
   return (
     <Router>
       <div className="flex">
-        <Navbar username={username && username} email={email && email}>
+        <Navbar username={username && username} email={email && email} avatar={avatar && avatar}>
           <NavbarItem icon={<HomeIcon size={20} />} text="Home" route="/" />
           <NavbarItem
             icon={<LayoutDashboard size={20} />}
@@ -110,7 +112,20 @@ export default function App() {
               <Route path="/report" element={<Report />} />
             </Route>
             <Route element={<PrivateRoute />}>
-              <Route path="/settings" element={<SettingsPage username={username && username} email={email && email} password={password && password} firstName={firstName && firstName}/>} />
+              <Route
+                path="/settings"
+                element={
+                  <SettingsPage
+                    username={username && username}
+                    email={email && email}
+                    password={password && password}
+                    firstName={firstName && firstName}
+                    lastName={lastName && lastName}
+                    avatar={avatar && avatar}
+
+                  />
+                }
+              />
             </Route>
             <Route path="/help" element={<Help />} />
             <Route element={<PrivateRoute />}>

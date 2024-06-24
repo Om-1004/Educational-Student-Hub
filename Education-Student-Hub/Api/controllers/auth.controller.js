@@ -2,7 +2,6 @@ import User from "../models/user.model.js"
 import bcryptjs from "bcryptjs"
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken"
-import dotenv from "dotenv"
 
 export const signup = async(req, res, next) =>{
     const { firstName, lastName, username, email, password } = req.body
@@ -27,9 +26,18 @@ export const signin = async (req, res, next) =>{
         if (!validPassword) return next(errorHandler(404, "Wrong password!"))
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
         const { password: pass, ...rest } = validUser._doc;
-        res.cookie("access_token", token, {httpOnly: true}).status(200).json(rest)
+        res.cookie("accessToken", token, {httpOnly: true}).status(200).json(rest)
 
     } catch (error) {
         next(error);
+    }
+}
+
+export const signout = async(req, res, next) =>{
+    try {
+        res.clearCookie("accessToken");
+        res.status(200).json("User has been logged out")
+    } catch (error) {
+        next(error)
     }
 }
