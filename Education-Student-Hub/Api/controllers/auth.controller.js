@@ -2,7 +2,6 @@ import User from "../models/user.model.js"
 import bcryptjs from "bcryptjs"
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken"
-import dotenv from "dotenv"
 
 export const signup = async(req, res, next) =>{
     const { firstName, lastName, username, email, password } = req.body
@@ -31,5 +30,14 @@ export const signin = async (req, res, next) =>{
 
     } catch (error) {
         next(error);
+    }
+}
+
+export const signout = async(req, res, next) =>{
+    try {
+        res.clearCookie("accessToken");
+        res.status(200).json("User has been logged out")
+    } catch (error) {
+        next(error)
     }
 }
