@@ -1,13 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
 import profileLogo from "../assets/images/profile.jpeg";
 
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { app } from '../firebase';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { app } from "../firebase";
 
 import { Pencil, Upload, Save } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice.js';
-
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+} from "../redux/user/userSlice.js";
 
 export default function Settings({
   username,
@@ -27,11 +35,10 @@ export default function Settings({
     lastName: false,
   });
 
-
   const { currentUser, loading } = useSelector((state) => state.user);
   const fileRef = useRef(null);
   const [file, setFile] = useState(undefined);
-  const [updateSuccess, setUpdateSuccess] = useState(false)
+  const [updateSuccess, setUpdateSuccess] = useState(false);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({
@@ -42,8 +49,8 @@ export default function Settings({
     avatar: currentUser.avatar,
   });
   const dispatch = useDispatch();
-  console.log(file)
-  console.log(formData)
+  console.log(file);
+  console.log(formData);
 
   const handleEyeClick = (e) => {
     e.preventDefault();
@@ -72,10 +79,13 @@ export default function Settings({
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setFilePerc(Math.round(progress));
       },
-      (error) => { setFileUploadError(true); },
+      (error) => {
+        setFileUploadError(true);
+      },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setFormData((prevData) => ({ ...prevData, avatar: downloadURL }));
@@ -104,7 +114,7 @@ export default function Settings({
         dispatch(updateUserFailure(data.message));
       } else {
         dispatch(updateUserSuccess(data));
-        setUpdateSuccess(true)
+        setUpdateSuccess(true);
       }
     } catch (error) {
       dispatch(updateUserFailure(error.message));
@@ -112,11 +122,11 @@ export default function Settings({
   };
 
   return (
-    <div className="border-2 border-green-200 h-max px-10 pt-10 ">
+    <div className="border-2 border-green-200 h-max px-10 pt-10 sm:flex sm:flex-col sm:justify-center">
       <div>
         <p className="text-2xl font-semibold text-gray-800">Profile</p>
         <p className="text-sm text-gray-500">Manage your profile settings</p>
-        <hr className="mt-7 w-10/12" />
+        <hr className="mt-7 w-10/12 sm:hidden" />
         <p className="mt-7 text-gray-800">Basic Info</p>
         <p className="mt-1 text-gray-500 text-sm">
           Tell us your basic info details
@@ -124,26 +134,25 @@ export default function Settings({
 
         <div className="flex flex-col">
           <div className="mt-5">
-
             <label className="mt-5 text-sm text-gray-800">First Name</label>
             <form onSubmit={handleSubmit}>
-                <div className="flex gap-3 items-center">
-                  <input
-                    className="p-2 rounded-xl w-80 border-2 border-gray-300"
-                    type="text"
-                    id="firstName"
-                    value={formData.firstName}
-                    readOnly={!isEditing.firstName}
-                    onChange={handleChange}
-                  />
-                  <button onClick={() => handleEdit("firstName")}>
-                    {isEditing.firstName ? (
-                      <Save size={18} />
-                    ) : (
-                      <Pencil size={18} />
-                    )}
-                  </button>
-                </div>
+              <div className="flex gap-3 items-center">
+                <input
+                  className="p-2 rounded-xl lg:w-80 border-2 border-gray-300 sm:w-28 sm:text-sm"
+                  type="text"
+                  id="firstName"
+                  value={formData.firstName}
+                  readOnly={!isEditing.firstName}
+                  onChange={handleChange}
+                />
+                <button onClick={() => handleEdit("firstName")}>
+                  {isEditing.firstName ? (
+                    <Save size={18} />
+                  ) : (
+                    <Pencil size={18} />
+                  )}
+                </button>
+              </div>
             </form>
           </div>
 
@@ -152,7 +161,7 @@ export default function Settings({
             <form onSubmit={handleSubmit}>
               <div className="flex gap-3 items-center">
                 <input
-                  className="p-2 rounded-xl w-80 border-2 border-gray-300"
+                  className="p-2 rounded-xl lg:w-80 border-2 border-gray-300 sm:w-28 sm:text-sm"
                   type="text"
                   id="lastName"
                   value={formData.lastName}
@@ -160,7 +169,11 @@ export default function Settings({
                   onChange={handleChange}
                 />
                 <button onClick={() => handleEdit("lastName")}>
-                  {isEditing.lastName ? <Save size={18} /> : <Pencil size={18} />}
+                  {isEditing.lastName ? (
+                    <Save size={18} />
+                  ) : (
+                    <Pencil size={18} />
+                  )}
                 </button>
               </div>
             </form>
@@ -170,7 +183,7 @@ export default function Settings({
             <form onSubmit={handleSubmit}>
               <div className="flex gap-3 items-center">
                 <input
-                  className="p-2 rounded-xl w-80 border-2 border-gray-300"
+                  className="p-2 rounded-xl lg:w-80 border-2 border-gray-300 sm:w-28 sm:text-sm"
                   type="text"
                   id="username"
                   value={formData.username}
@@ -178,7 +191,11 @@ export default function Settings({
                   onChange={handleChange}
                 />
                 <button onClick={() => handleEdit("username")}>
-                  {isEditing.username ? <Save size={18} /> : <Pencil size={18} />}
+                  {isEditing.username ? (
+                    <Save size={18} />
+                  ) : (
+                    <Pencil size={18} />
+                  )}
                 </button>
               </div>
             </form>
@@ -189,7 +206,7 @@ export default function Settings({
             <form onSubmit={handleSubmit}>
               <div className="flex gap-3 items-center">
                 <input
-                  className="p-2 rounded-xl w-80 border-2 border-gray-300"
+                  className="p-2 rounded-xl lg:w-80 border-2 border-gray-300 sm:w-28 sm:text-sm"
                   type="email"
                   name="email"
                   id="email"
@@ -210,7 +227,7 @@ export default function Settings({
               <div className="flex gap-3 items-center">
                 <div className="relative">
                   <input
-                    className="p-2 rounded-xl w-80 border-2 border-gray-300"
+                    className="p-2 rounded-xl lg:w-80 border-2 border-gray-300 sm:w-28 sm:text-sm"
                     type={openPassword ? "text" : "password"}
                     name="password"
                     id="password"
@@ -250,7 +267,11 @@ export default function Settings({
                   </button>
                 </div>
                 <button onClick={() => handleEdit("password")}>
-                  {isEditing.password ? <Save size={18} /> : <Pencil size={18} />}
+                  {isEditing.password ? (
+                    <Save size={18} />
+                  ) : (
+                    <Pencil size={18} />
+                  )}
                 </button>
               </div>
             </form>
@@ -258,62 +279,71 @@ export default function Settings({
 
           <hr className="w-10/12 mt-8" />
           <p className="mt-7 text-gray-800">Profile Picture</p>
-          <p className="text-sm text-gray-500">
-            We support only JPEGs or PNGs under 5MB
-          </p>
-          <form onSubmit={handleSubmit}>
-          <div className="flex items-center gap-5 mt-5 mb-3">
-            <button className="hover:opacity-40">
-              <div className="relative w-24 h-24 mt-5">
-                <img
-                  src={formData.avatar || currentUser.avatar || profileLogo}
-                  className="w-24 h-24 rounded-full border border-transparent border-blue-500"
-                  alt="Profile"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white rounded-full cursor-pointer" onClick={() => fileRef.current.click()}>
-                  Edit
-                </div>
-                <p className="text-sm self-center">
-                {fileUploadError ? (
-                  <span className="text-red-700">Error While Uploading Image (image must be less than 2mb)</span>
-                ) : filePerc > 0 && filePerc < 100 ? (
-                  <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
-                ) : filePerc === 100 ? (
-                  <span className="text-green-700">Image Successfully Uploaded!</span>
-                ) : (
-                  ""
-                )}
-              </p>
-                <input
-                  onChange={(e) => setFile(e.target.files[0])}
-                  type="file"
-                  ref={fileRef}
-                  hidden
-                  accept="image/*"
-                />
-              </div>
-            </button>
-            
-            <input
-              onChange={(e) => setFile(e.target.files[0])}
-              type="file"
-              ref={fileRef}
-              hidden
-              accept="image/*"
-            />
-
-          <button>
-            <div className="flex items-center gap-3 w-auto h-10 border-2 border-gray-300 rounded-xl px-3">
-              <div>
-                <Upload />
-              </div>
-              
-              <p>Update</p>
-
-            </div>
-          </button>
+          <div className=" sm:w-[200px] lg:w-auto">
+            <p className="text-sm text-gray-500 sm:text-sm">
+              We support only JPEGs or PNGs under 5MB
+            </p>
           </div>
 
+          <form onSubmit={handleSubmit}>
+            <div className="flex items-center gap-5 mt-5 mb-3">
+              <button className="hover:opacity-40 ">
+                <div className="relative lg:w-24 lg:h-24 mt-5 sm:w-12 sm:h-12">
+                  <img
+                    src={formData.avatar || currentUser.avatar || profileLogo}
+                    className="w-full h-full rounded-full border border-transparent border-blue-500"
+                    alt="Profile"
+                  />
+                  <div
+                    className="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center text-white rounded-full cursor-pointer"
+                    onClick={() => fileRef.current.click()}
+                  >
+                    Edit
+                  </div>
+                  <p className="text-sm self-center">
+                    {fileUploadError ? (
+                      <span className="text-red-700">
+                        Error While Uploading Image (image must be less than
+                        2mb)
+                      </span>
+                    ) : filePerc > 0 && filePerc < 100 ? (
+                      <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
+                    ) : filePerc === 100 ? (
+                      <span className="text-green-700">
+                        Image Successfully Uploaded!
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </p>
+                  <input
+                    onChange={(e) => setFile(e.target.files[0])}
+                    type="file"
+                    ref={fileRef}
+                    hidden
+                    accept="image/*"
+                  />
+                </div>
+              </button>
+
+              <input
+                onChange={(e) => setFile(e.target.files[0])}
+                type="file"
+                ref={fileRef}
+                hidden
+                accept="image/*"
+              />
+
+              <button>
+                <div className="flex items-center gap-3 w-auto lg:h-10 border-2 border-gray-300 rounded-xl px-3 lg:text-sm sm:h-8 ">
+                  <div>
+                    <Upload />
+                  </div>
+
+                  <p>Update</p>
+                </div>
+              </button>
+            </div>
           </form>
         </div>
       </div>
