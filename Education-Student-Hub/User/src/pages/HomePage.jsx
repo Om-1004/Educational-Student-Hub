@@ -11,10 +11,10 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-//className="bg-gradient-to-r from-[#34598c] to-[#56739e]"
+//
 export default function HomePage() {
   return (
-    <div >
+    <div className="bg-gradient-to-r from-[#34598c] to-[#56739e]">
       <div className="min-h-screen p-8 md:p-12">
         <div className="bg-white border-4 border-[#34598c] rounded-lg shadow-lg">
           <div className="flex flex-col lg:flex-row justify-between px-6 md:px-24 items-center py-10">
