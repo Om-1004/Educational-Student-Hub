@@ -60,7 +60,7 @@ export default function App() {
           />
           <NavbarItem
             icon={<Calendar size={20} />}
-            text="Tasks"
+            text="Todo"
             route="/tasks"
             classes={
               !currentUser && "bg-gray-200 opacity-50 cursor-not-allowed"
