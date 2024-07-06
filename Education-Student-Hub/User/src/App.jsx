@@ -12,6 +12,7 @@ import {
   LifeBuoy,
   LogIn,
   UserPlus,
+  Info,
 } from "lucide-react";
 
 import HomePage from "./pages/HomePage.jsx";
@@ -25,6 +26,7 @@ import { useSelector } from "react-redux";
 import Login from "./components/Login.jsx";
 import SignUp from "./components/SignUp.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import AboutUs from "./pages/AboutUs.jsx";
 
 export default function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -103,6 +105,7 @@ export default function App() {
             }
           />
           <NavbarItem icon={<LifeBuoy size={20} />} text="Help" route="/help" />
+          <NavbarItem icon={<Info size={20} />} text="About" route="/about" />
         </Navbar>
 
         <div className="flex-grow">
@@ -128,6 +131,7 @@ export default function App() {
               />
             </Route>
             <Route path="/help" element={<Help />} />
+            <Route path='/about' element={<AboutUs/>}/>
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
