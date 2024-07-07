@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { CirclePlus, Check, Trash2, X } from "lucide-react";
+import { CirclePlus, Check, Trash2, X, MoveRight } from "lucide-react";
 
-export default function Todo() {
-  const [addTask, setAddTask] = useState(false);
-  const [task, setTask] = useState(null);
-  const [tasks, setTasks] = useState([]);
-
+export default function Todo({
+  addTask,
+  task,
+  tasks,
+  setTask,
+  setTasks,
+  setAddTask,
+  handleInProgressTask,
+}) {
   function handleAddTask() {
     setAddTask((curr) => !curr);
     setTask("");
@@ -36,13 +40,13 @@ export default function Todo() {
         {tasks.map((t, index) => (
           <li
             key={index}
-            className="bg-gray-100 py-2 px-3 rounded-xl mt-2 break-words flex justify-between"
+            className="bg-gray-100 py-2 px-3 rounded-xl mt-2 break-words flex justify-between border border-yellow-500"
             style={{ wordBreak: "break-word" }}
           >
             {t}
             <button>
               <div className="flex gap-2">
-                <Check onClick={() => console.log("Hi")} />
+                <MoveRight onClick={() => handleInProgressTask(t)} className="text-blue-500"/>
                 <Trash2 onClick={() => handleDeleteTask(t)} />
               </div>
             </button>
@@ -62,14 +66,18 @@ export default function Todo() {
           <input
             type="text"
             placeholder="Enter Task"
-            className="bg-gray-200 py-2 px-3 rounded-xl mt-2"
+            className="bg-gray-200 py-2 px-3 rounded-xl mt-2 border border-yellow-500"
             value={task}
             onChange={handleInputTask}
           />
-          <button >
+          <button>
             <div className="flex gap-1">
-              <Check size={30} className="text-green-500" onClick={() => handleSaveTask(task)} />
-              <X size={30} className="text-red-500" onClick={handleAddTask}/>
+              <Check
+                size={30}
+                className="text-green-500"
+                onClick={() => handleSaveTask(task)}
+              />
+              <X size={30} className="text-red-500" onClick={handleAddTask} />
             </div>
           </button>
         </div>
