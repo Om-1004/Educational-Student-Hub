@@ -18,7 +18,7 @@ import {
 import HomePage from "./pages/HomePage.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Project from "./pages/Projects";
-import Tasks from "./pages/Todo.jsx";
+import Tasks from "./pages/Tasks.jsx";
 import Report from "./pages/Report";
 import SettingsPage from "./pages/SettingsPage.jsx";
 import Help from "./pages/Help";
