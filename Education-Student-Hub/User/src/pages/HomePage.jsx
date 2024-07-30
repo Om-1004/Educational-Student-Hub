@@ -17,12 +17,12 @@ export default function HomePage() {
     <div className="bg-gradient-to-r from-[#34598c] to-[#56739e]">
       <div className="min-h-screen p-8 md:p-12">
         <div className="bg-white border-4 border-[#34598c] rounded-lg shadow-lg">
-          <div className="flex flex-col lg:flex-row justify-between px-6 md:px-24 items-center py-10">
+          <div className="flex flex-col w-[230px] lg:flex-row justify-between px-6 md:px-24 items-center py-10 lg:w-full">
             <div className="w-full lg:w-2/3 text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800">
+              <h1 className="text-3xl text-center w-[210px] md:text-5xl font-extrabold text-gray-800 lg:w-full">
                 Welcome to Educational Hub
               </h1>
-              <p className="mt-3 md:mt-5 text-gray-700 text-lg w-[300px]">
+              <p className="mt-3 md:mt-5 text-gray-700 text-lg lg:w-[300px]">
                 Bring all your tasks, friends, and tools together to{" "}
                 <span className="underline text-[#34598c]">
                   help students achieve their goals

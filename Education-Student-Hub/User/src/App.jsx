@@ -48,6 +48,7 @@ export default function App() {
             icon={<LayoutDashboard size={20} />}
             text="Dashboard"
             route="/dashboard"
+            className="border-2 border-green-800"
             classes={
               !currentUser && "bg-gray-200 opacity-50 cursor-not-allowed"
             }
