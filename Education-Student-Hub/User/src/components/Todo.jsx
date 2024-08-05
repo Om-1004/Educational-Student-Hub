@@ -1,34 +1,47 @@
+// Todo.js
 import React, { useState } from "react";
-import { CirclePlus, Check, Trash2, X, MoveRight } from "lucide-react";
+import { CirclePlus, Check, X, Edit2 } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateTasks } from "../redux/user/userSlice";
 
-export default function Todo({
-  addTask,
-  task,
-  tasks,
-  setTask,
-  setTasks,
-  setAddTask,
-  handleInProgressTask,
-}) {
-  function handleAddTask() {
-    setAddTask((curr) => !curr);
-    setTask("");
+export default function Todo() {
+  const [displayTitle, setDisplayTitle] = useState(true);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [editMode, setEditMode] = useState(false);
+
+  const tasks = useSelector((state) => state.user.tasks || {});
+  const dispatch = useDispatch();
+
+  const taskTitles = Object.keys(tasks);
+
+  function displayTask() {
+    setDisplayTitle((curr) => !curr);
   }
 
-  function handleInputTask(e) {
-    setTask(e.target.value);
+  function handleCheckClick() {
+    if (title.trim() === "" || description.trim() === "") return;
+
+    dispatch(updateTasks({ title, description, previousTitle: editMode }));
+
+    setTitle("");
+    setDescription("");
+    setDisplayTitle(true);
+    setEditMode(false);
   }
 
-  function handleSaveTask(newTask) {
-    if (newTask) {
-      setTasks((prevTasks) => [...prevTasks, newTask]);
-      setTask("");
-      setAddTask(false);
-    }
+  function handleXClick() {
+    setTitle("");
+    setDescription("");
+    setDisplayTitle(true);
+    setEditMode(false);
   }
 
-  function handleDeleteTask(givenTask) {
-    setTasks((prevTasks) => prevTasks.filter((x) => x !== givenTask));
+  function handleTaskClick(title) {
+    setEditMode(title);
+    setTitle(title);
+    setDescription(tasks[title].description);
+    setDisplayTitle(false);
   }
 
   return (
@@ -36,52 +49,57 @@ export default function Todo({
       <div className="font-bold text-3xl border-b-4 border-yellow-500 md:text-xl">
         Todo
       </div>
-      <ul className="mt-4">
-        {tasks.map((t, index) => (
+
+      <ul className="flex flex-col gap-3">
+        {taskTitles.map((title, index) => (
           <li
+            className="bg-gray-100 py-2 px-3 rounded-xl mt-2 break-words flex justify-between border border-yellow-500 cursor-pointer"
             key={index}
-            className="bg-gray-100 py-2 px-3 rounded-xl mt-2 break-words flex justify-between border border-yellow-500"
-            style={{ wordBreak: "break-word" }}
+            onClick={() => handleTaskClick(title)}
           >
-            {t}
-            <button>
-              <div className="flex gap-2">
-                <MoveRight onClick={() => handleInProgressTask(t)} className="text-blue-500"/>
-                <Trash2 onClick={() => handleDeleteTask(t)} />
-              </div>
-            </button>
+            {title}
+            {editMode === title && <Edit2 className="ml-2" /> }
           </li>
         ))}
       </ul>
-      {!addTask ? (
-        <button
-          className="bg-gray-200 py-2 px-3 rounded-xl mt-2 flex gap-2"
-          onClick={handleAddTask}
-        >
-          <CirclePlus />
-          Add Task
-        </button>
-      ) : (
-        <div className="flex gap-2">
-          <input
-            type="text"
-            placeholder="Enter Task"
-            className="bg-gray-200 py-2 px-3 rounded-xl mt-2 border border-yellow-500"
-            value={task}
-            onChange={handleInputTask}
-          />
-          <button>
-            <div className="flex gap-1">
-              <Check
-                size={30}
-                className="text-green-500"
-                onClick={() => handleSaveTask(task)}
-              />
-              <X size={30} className="text-red-500" onClick={handleAddTask} />
-            </div>
+
+      <div>
+        {displayTitle ? (
+          <button
+            className="bg-gray-200 py-2 px-3 rounded-xl mt-2 flex gap-2"
+            onClick={displayTask}
+          >
+            <CirclePlus />
+            Add Task
           </button>
-        </div>
-      )}
+        ) : (
+          <div className="flex flex-col gap-3 bg-gray-300 px-3 rounded-lg pb-5">
+            <input
+              onChange={(e) => setTitle(e.target.value)}
+              type="text"
+              placeholder="Enter Task"
+              className="bg-gray-200 py-2 px-3 rounded-xl mt-2 border border-yellow-500 w-full"
+              value={title}
+            />
+            <textarea
+              className="rounded-2xl pl-3"
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
+            />
+          </div>
+        )}
+
+        {!displayTitle && (
+          <div className="flex gap-3">
+            <button onClick={handleCheckClick}>
+              <Check className="text-green-600" />
+            </button>
+            <button onClick={handleXClick}>
+              <X className="text-red-600" />
+            </button>
+          </div>
+        )}
+      </div>
     </>
   );
 }
