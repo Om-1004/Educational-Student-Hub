@@ -1,13 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+// userSlice.js
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentUser: null,
   error: null,
   loading: false,
+  tasks: {},
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     signInStart: (state) => {
@@ -22,31 +24,67 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
-    updateUserStart: (state) =>{
+    updateUserStart: (state) => {
       state.loading = true;
     },
-    updateUserSuccess: (state, action)=>{
+    updateUserSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
       state.error = null;
     },
-    updateUserFailure: (state, action) =>{
+    updateUserFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
     },
-    signOutUserStart: (state)=>{
+    signOutUserStart: (state) => {
       state.loading = true;
     },
-    signOutUserSuccess: (state) =>{
+    signOutUserSuccess: (state) => {
       state.currentUser = null;
       state.loading = false;
-      state.error= null;
+      state.error = null;
     },
-    signOutUserFailure: (state, action) =>{
+    signOutUserFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
-    }
-    }
-})
-export const { signInStart, signInSuccess, signInFailure, updateUserFailure, updateUserStart, updateUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess} = userSlice.actions;
+    },
+
+    updateTasks: {
+      prepare({ title, description, previousTitle }) {
+        return {
+          payload: { title, description, previousTitle, id: Date.now() },
+        };
+      },
+      reducer(state, action) {
+        const { title, description, previousTitle, id } = action.payload;
+        const newTasks = { ...state.tasks };
+
+        if (previousTitle && previousTitle !== title) {
+          delete newTasks[previousTitle];
+        }
+
+        newTasks[title] = { description, id };
+
+        return {
+          ...state,
+          tasks: newTasks,
+        };
+      },
+    },
+  },
+});
+
+export const {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+  updateUserFailure,
+  updateUserStart,
+  updateUserSuccess,
+  signOutUserStart,
+  signOutUserFailure,
+  signOutUserSuccess,
+  updateTasks,
+} = userSlice.actions;
+
 export const userReducer = userSlice.reducer;

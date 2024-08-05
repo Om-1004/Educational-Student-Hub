@@ -8,29 +8,29 @@ import Done from "../components/Done";
 export default function Tasks() {
   const [addTask, setAddTask] = useState(false);
   const [task, setTask] = useState(null);
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState({});
 
   const [inProgressTasks, setInProgressTasks] = useState([]);
   const [doneTasks, setDoneTasks] = useState([]);
 
-  function handleInProgressTask(inProgressTask) {
-    setInProgressTasks((prevInProgressTask) => [
-      ...prevInProgressTask,
-      inProgressTask,
-    ]);
-    setTasks((prevTasks) =>
-      prevTasks.filter((toDoTask) => toDoTask !== inProgressTask)
-    );
-  }
+  // function handleInProgressTask(inProgressTask) {
+  //   setInProgressTasks((prevInProgressTask) => [
+  //     ...prevInProgressTask,
+  //     inProgressTask,
+  //   ]);
+  //   setTasks((prevTasks) =>
+  //     prevTasks.filter((toDoTask) => toDoTask !== inProgressTask)
+  //   );
+  // }
 
-  function handleDoneTask(doneTask) {
-    setDoneTasks((prevDoneTasks) => [...prevDoneTasks, doneTask]);
-    setInProgressTasks((prevInProgressTasks) =>
-      prevInProgressTasks.filter(
-        (inProgressTask) => inProgressTask !== doneTask
-      )
-    );
-  }
+  // function handleDoneTask(doneTask) {
+  //   setDoneTasks((prevDoneTasks) => [...prevDoneTasks, doneTask]);
+  //   setInProgressTasks((prevInProgressTasks) =>
+  //     prevInProgressTasks.filter(
+  //       (inProgressTask) => inProgressTask !== doneTask
+  //     )
+  //   );
+  // }
 
   return (
     <div>
@@ -47,29 +47,19 @@ export default function Tasks() {
         </div>
         <div className="p-2">
           <Todo
-            addTask={addTask}
-            setTasks={setTasks}
-            task={task}
-            tasks={tasks}
-            setAddTask={setAddTask}
-            setTask={setTask}
-            handleInProgressTask={handleInProgressTask}
-          />
-        </div>
-        <div className=" p-2">
-          <InProgress
-            inProgressTasks={inProgressTasks}
-            handleDoneTask={handleDoneTask}
-            setInProgressTasks={setInProgressTasks}
-          />
+          tasks={tasks}
+          setTasks={setTasks}
 
-          <button className="bg-gray-200 py-2 px-3 rounded-xl mt-2 flex gap-2 disabled">
-            <CirclePlus />
-            Check Off Task
-          </button>
-        </div>
-        <div className="p-2">
-          <Done doneTasks={doneTasks} />
+            // addTask={addTask}
+            // setTasks={setTasks}
+            // task={task}
+            // tasks={tasks}
+            // setAddTask={setAddTask}
+            // setTask={setTask}
+            // handleInProgressTask={handleInProgressTask}
+            // description={description}
+            // setDescription={setDescription}
+          />
         </div>
       </div>
     </div>
