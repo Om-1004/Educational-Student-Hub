@@ -17,7 +17,7 @@ export default function HomePage() {
     <div className="bg-gradient-to-r from-[#34598c] to-[#56739e]">
       <div className="min-h-screen p-8 md:p-12">
         <div className="bg-white border-4 border-[#34598c] rounded-lg shadow-lg">
-          <div className="flex flex-col w-[230px] lg:flex-row justify-between px-6 md:px-24 items-center py-10 lg:w-full">
+          <div className="flex flex-col w-[230px] lg:flex-row justify-between px-6 md:px-24 items-center py-10 md:w-full">
             <div className="w-full lg:w-2/3 text-center lg:text-left">
               <h1 className="text-3xl text-center w-[210px] md:text-5xl font-extrabold text-gray-800 lg:w-full">
                 Welcome to Educational Hub
