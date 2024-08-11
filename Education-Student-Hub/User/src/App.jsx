@@ -13,6 +13,8 @@ import {
   LogIn,
   UserPlus,
   Info,
+  MessageCircle,
+
 } from "lucide-react";
 
 import HomePage from "./pages/HomePage.jsx";
@@ -45,7 +47,7 @@ export default function App() {
         <Navbar username={username && username} email={email && email} avatar={avatar && avatar}>
           <NavbarItem icon={<HomeIcon size={20} />} text="Home" route="/" />
           <NavbarItem
-            icon={<LayoutDashboard size={20} />}
+            icon={<MessageCircle size={20} />}
             text="Dashboard"
             route="/dashboard"
             className="border-2 border-green-800"
