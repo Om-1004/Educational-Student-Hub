@@ -19,7 +19,7 @@ export default function HomePage() {
         <div className="bg-white border-4 border-[#34598c] rounded-lg shadow-lg">
           <div className="flex flex-col w-[230px] lg:flex-row justify-between px-6 md:px-24 items-center py-10 md:w-full">
             <div className="w-full lg:w-2/3 text-center lg:text-left">
-              <h1 className="text-3xl text-center w-[210px] md:text-5xl font-extrabold text-gray-800 lg:w-full">
+              <h1 className="text-3xl text-center lg:text-left w-[180px] md:text-5xl font-extrabold text-gray-800 lg:w-full">
                 Welcome to Educational Hub
               </h1>
               <p className="mt-3 md:mt-5 text-gray-700 text-lg lg:w-[300px]">

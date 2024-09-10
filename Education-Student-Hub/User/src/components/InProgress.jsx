@@ -1,18 +1,16 @@
 import React from "react";
 import { CirclePlus, Check, Trash2, X, MoveRight } from "lucide-react";
 
-export default function InProgress({ inProgressTasks, handleDoneTask, setInProgressTasks}) {
+export default function InProgress() {
 
-  function handleDeleteTask(inProgressTask) {
-    setInProgressTasks((prevTasks) => prevTasks.filter((x) => x !== inProgressTask));
-  }
+
 
   return (
     <>
       <div className="font-bold text-3xl border-b-4 border-blue-500 md:text-xl">
         In Progress
       </div>
-      <ul className="mt-4">
+      {/* <ul className="mt-4">
         {inProgressTasks.map((taskInProgress, index) => (
           <li
             key={index}
@@ -31,7 +29,7 @@ export default function InProgress({ inProgressTasks, handleDoneTask, setInProgr
             </button>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </>
   );
 }

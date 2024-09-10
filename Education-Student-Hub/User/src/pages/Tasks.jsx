@@ -13,25 +13,6 @@ export default function Tasks() {
   const [inProgressTasks, setInProgressTasks] = useState([]);
   const [doneTasks, setDoneTasks] = useState([]);
 
-  // function handleInProgressTask(inProgressTask) {
-  //   setInProgressTasks((prevInProgressTask) => [
-  //     ...prevInProgressTask,
-  //     inProgressTask,
-  //   ]);
-  //   setTasks((prevTasks) =>
-  //     prevTasks.filter((toDoTask) => toDoTask !== inProgressTask)
-  //   );
-  // }
-
-  // function handleDoneTask(doneTask) {
-  //   setDoneTasks((prevDoneTasks) => [...prevDoneTasks, doneTask]);
-  //   setInProgressTasks((prevInProgressTasks) =>
-  //     prevInProgressTasks.filter(
-  //       (inProgressTask) => inProgressTask !== doneTask
-  //     )
-  //   );
-  // }
-
   return (
     <div>
       <header className="font-bold text-2xl ml-10 mt-5">My Plan</header>
@@ -46,20 +27,10 @@ export default function Tasks() {
           </button>
         </div>
         <div className="p-2">
-          <Todo
-          tasks={tasks}
-          setTasks={setTasks}
-
-            // addTask={addTask}
-            // setTasks={setTasks}
-            // task={task}
-            // tasks={tasks}
-            // setAddTask={setAddTask}
-            // setTask={setTask}
-            // handleInProgressTask={handleInProgressTask}
-            // description={description}
-            // setDescription={setDescription}
-          />
+          <Todo tasks={tasks} setTasks={setTasks} />
+        </div>
+        <div className="p-2">
+          <InProgress />
         </div>
       </div>
     </div>

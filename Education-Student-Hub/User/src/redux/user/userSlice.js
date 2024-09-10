@@ -1,4 +1,3 @@
-// userSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -49,27 +48,66 @@ const userSlice = createSlice({
       state.loading = false;
     },
 
+    addTask: (state, action) => {
+      const { title, description } = action.payload;
+      if (state.tasks[title]) {
+        return;
+      }
+      state.tasks[title] = {
+        description,
+        id: Date.now(),
+      };
+    },
+
+    checkTaskOff: (state, action) => {
+      const { title } = action.payload;
+      const newTasks = { ...state.tasks };
+      delete newTasks[title];
+      return {
+        ...state,
+        tasks: newTasks,
+      };
+    },
+
+
     updateTasks: {
       prepare({ title, description, previousTitle }) {
         return {
-          payload: { title, description, previousTitle, id: Date.now() },
+          payload: {
+            title,
+            description,
+            previousTitle,
+          },
         };
       },
       reducer(state, action) {
-        const { title, description, previousTitle, id } = action.payload;
+        const { title, description, previousTitle } = action.payload;
         const newTasks = { ...state.tasks };
 
         if (previousTitle && previousTitle !== title) {
           delete newTasks[previousTitle];
         }
 
-        newTasks[title] = { description, id };
+        newTasks[title] = {
+          description,
+          id: state.tasks[previousTitle]?.id || Date.now(),
+        };
 
         return {
           ...state,
           tasks: newTasks,
         };
       },
+    },
+
+    deleteTask: (state, action) => {
+      const { title } = action.payload;
+      const newTasks = { ...state.tasks };
+      delete newTasks[title];
+      return {
+        ...state,
+        tasks: newTasks,
+      };
     },
   },
 });
@@ -85,6 +123,9 @@ export const {
   signOutUserFailure,
   signOutUserSuccess,
   updateTasks,
+  addTask,
+  deleteTask,
+  checkTaskOff,
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
